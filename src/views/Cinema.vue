@@ -1,7 +1,7 @@
 <template>
   <div class="columns">
     <div id="video" class="column">
-      <video class="stream" style="width: 100%" controls
+      <video id="stream" class="stream" style="width: 100%" controls autoplay
       >
         <source :src="streamSrc">
       </video>
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-
+import { mapGetters, mapActions } from 'vuex'
 import * as firebase from 'firebase'
 
 firebase.initializeApp(
@@ -46,21 +46,27 @@ export default {
     return {
       messages: [],
       message: '',
-      user: null
+      user: null,
+      currentTime: 0
     }
   },
   methods: {
+    ...mapActions(['getFilms']),
     sendMessage () {
       database.ref('chats/' + this.$route.params.user).push({ message: this.message, user: this.user })
       this.message = ''
     }
   },
   computed: {
+    ...mapGetters({
+      films: 'getRooms'
+    }),
     streamSrc () {
       return 'http://sharefilm.ibon.dev:' + this.$route.params.port
     }
   },
   mounted () {
+    this.getFilms()
     while (this.user === null) {
       this.user = prompt('Dime tu nombre')
     }
@@ -68,6 +74,10 @@ export default {
     database.ref('chats/' + this.$route.params.user).on('child_added', snapshot => {
       this.messages.push(Object.assign(snapshot.val(), { id: snapshot.key }))
     })
+
+    document.getElementById('stream').addEventListener('loadedmetadata', function () {
+      this.currentTime = 50
+    }, false)
   }
 
 }
