@@ -1,13 +1,17 @@
 <template>
   <div class="card">
+    <header class="card-header">
+      <p class="card-header-title">
+        Categorías
+      </p>
+    </header>
     <div class="card-content">
       <aside class="menu">
-        <p class="menu-label">
-          General
-        </p>
         <ul class="menu-list">
-          <li><a>Dashboard</a></li>
-          <li><a>Customers</a></li>
+          <li v-for="category in categories"
+          :key="category">
+            <a v-text="category" :key="category"/>
+          </li>
         </ul>
       </aside>
     </div>
@@ -16,21 +20,21 @@
 
 <script>
 export default {
-  name: 'MenuComponent'
+  name: 'MenuComponent',
+  data () {
+    return {
+      categories: ['Horror', 'Acción', 'Aventura', 'Romance', 'Drama', 'Comedia']
+    }
+  }
 }
 </script>
 
 <style scoped lang="scss">
-  a, p {
-    color: #949cb0;
-  }
-  .card {
-    margin-bottom: 10px;
-    background-color: #1c212e;
-    border: 5px solid transparent;
-  }
-
   .menu-list {
+    a {
+      color: #949cb0;
+    }
+
     li {
       border: 3px solid transparent;
 

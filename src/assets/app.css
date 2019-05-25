@@ -1,0 +1,56 @@
+html {
+    background: #131722;
+}
+
+.card {
+    margin-bottom: 10px;
+    background-color: #1c212e;
+    border: 5px solid transparent;
+}
+
+a {
+    color: #ddd;
+}
+
+.card-content, .card-header-title, .card-footer-item {
+    color: #949cb0;
+}
+
+.card-header {
+    border: 3px solid transparent;
+    background: #131722;
+    height: 40px;
+}
+
+.card-footer-item {
+    border: 2px solid #949cb0;
+    height: 40px;
+}
+
+.card-footer {
+    border: 2px solid transparent;
+}
+
+.card-footer-item:hover {
+    background: #131722;
+}
+
+.card-footer-item:active {
+    background:black;
+}
+
+.score {
+    font-size: 30px;
+}
+
+.score-text {
+    margin-left: 5px;
+}
+
+.description {
+    margin-top: 15px;
+}
+
+.user {
+    font-weight: bold;
+}
