@@ -1,7 +1,7 @@
 <template>
   <div class="columns">
     <div id="video" class="column">
-      <video class="stream" style="width: 100%" controls
+      <video class="stream" style="width: 100%" controls autoplay
       >
         <source :src="streamSrc">
       </video>
@@ -65,7 +65,7 @@ export default {
       this.user = prompt('Dime tu nombre')
     }
 
-    database.ref('chats/' + this.$route.params.user).on('child_added', snapshot => {
+    database.ref('chats/' + this.$route.params.user + '+' + this.$route.params.port).on('child_added', snapshot => {
       this.messages.push(Object.assign(snapshot.val(), { id: snapshot.key }))
     })
   }
