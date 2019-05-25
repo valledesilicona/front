@@ -75,10 +75,6 @@ export default {
     database.ref('chats/' + this.$route.params.user + '+' + this.$route.params.port).on('child_added', snapshot => {
       this.messages.push(Object.assign(snapshot.val(), { id: snapshot.key }))
     })
-
-    document.getElementById('stream').addEventListener('loadedmetadata', function () {
-      this.currentTime = 50
-    }, false)
   }
 
 }
