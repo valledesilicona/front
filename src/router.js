@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HomeLayout from './layouts/Home.vue'
+import Cinema from './views/Cinema'
 
 Vue.use(Router)
 
@@ -10,6 +11,11 @@ export default new Router({
       path: '/',
       name: 'home',
       component: HomeLayout
+    },
+    {
+      path: '/cinema/:port/:user',
+      name: 'cinema',
+      component: Cinema
     }
     // {
     //   path: '/about',

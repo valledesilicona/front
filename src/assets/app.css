@@ -2,6 +2,11 @@ html {
     background: #131722;
 }
 
+html, body {
+    height: 100%;
+    margin: 0px;
+}
+
 .card {
     margin-bottom: 10px;
     background-color: #1c212e;
