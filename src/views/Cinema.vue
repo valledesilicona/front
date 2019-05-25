@@ -9,7 +9,7 @@
         <div id="chat" class="column is-one-fifth">
             <div class="chat">
 
-                <div v-for="message in messages" :key="message.message">{{message.message}}</div>
+                <div v-for="message in messages" :key="message.id">{{message.message}}</div>
 
             </div>
             <div class="control">
@@ -59,11 +59,13 @@ export default {
     }
   },
   mounted () {
-    database.ref('chats/' + this.$route.params.user).on('child_added', snapshot => {
-      this.messages.push(snapshot.val())
-    })
+    while (this.user === null) {
+      this.user = prompt('Dime tu nombre')
+    }
 
-    this.user = prompt('Dime tu nombre')
+    database.ref('chats/' + this.$route.params.user).on('child_added', snapshot => {
+      this.messages.push(Object.assign(snapshot.val(), { id: snapshot.key }))
+    })
   }
 
 }
