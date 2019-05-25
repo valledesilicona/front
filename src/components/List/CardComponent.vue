@@ -23,7 +23,7 @@
       </div>
     </div>
     <footer class="card-footer">
-      <a href="#" class="card-footer-item">Ver</a>
+      <router-link :to="urlCinema" class="card-footer-item">Ver</router-link>
     </footer>
   </div>
 </template>
@@ -51,6 +51,15 @@ export default {
     user: {
       type: String,
       required: true
+    },
+    port: {
+      type: String,
+      required: true
+    }
+  },
+  computed: {
+    urlCinema () {
+      return '/cinema/' + this.port + '/' + this.user
     }
   }
 }

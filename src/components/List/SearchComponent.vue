@@ -1,12 +1,22 @@
 <template>
 <div class="search">
-  <input class="input" type="text" placeholder="Buscar...">
+  <input v-model="search" @input="searchChange" class="input" type="text" placeholder="Buscar...">
 </div>
 </template>
 
 <script>
 export default {
-  name: 'SearchComponent'
+  name: 'SearchComponent',
+  data () {
+    return {
+      search: ''
+    }
+  },
+  methods: {
+    searchChange () {
+      this.$emit('search', this.search)
+    }
+  }
 }
 </script>
 

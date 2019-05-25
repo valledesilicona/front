@@ -1,23 +1,25 @@
 <template>
-    <div class="columns">
-        <div id="video" class="column">
-            <video class="stream" style="width: 100%" controls
-            >
-                <source :src="streamSrc">
-            </video>
-        </div>
-        <div id="chat" class="column is-one-fifth">
-            <div class="chat">
-
-                <div v-for="message in messages" :key="message.id">{{message.message}}</div>
-
-            </div>
-            <div class="control">
-                <input v-on:keyup.enter="sendMessage" class="input" v-model="message" type="text" placeholder="Chat"
-                       required>
-            </div>
-        </div>
+  <div class="columns">
+    <div id="video" class="column">
+      <video class="stream" style="width: 100%" controls
+      >
+        <source :src="streamSrc">
+      </video>
     </div>
+    <div id="chat" class="column is-one-fifth">
+      <div class="chat">
+
+        <div v-for="message in messages" :key="message.id">
+          <span class="userMessage" v-text="message.user"/>: {{message.message}}
+        </div>
+
+      </div>
+      <div class="control">
+        <input v-on:keyup.enter="sendMessage" class="input" v-model="message" type="text" placeholder="Chat"
+               required>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -72,45 +74,50 @@ export default {
 </script>
 
 <style scoped>
-    #chat {
-        position: absolute;
-        right: 0;
-        background: #1c212e;
-        height: 101%;
-    }
+  .userMessage {
+    font-weight: bold;
+  }
 
-    .chat {
-        height: 94%;
-    }
+  #chat {
+    position: absolute;
+    right: 0;
+    background: #1c212e;
+    height: 101%;
+  }
 
-    #video {
-        position: absolute;
-        left: 0;
-        width: 80%;
-        padding: 0;
-    }
+  .chat {
+    height: 94%;
+    color: #949cb0;
+  }
 
-    .stream {
-        margin-top: 8%;
-    }
+  #video {
+    position: absolute;
+    left: 0;
+    width: 80%;
+    padding: 0;
+  }
 
-    .control {
-        position: fixed;
-        bottom: 0;
-        background: linear-gradient(135deg, #8ebcee, #388fff);
-        padding: 3px;
-        width: 18%;
-        margin-bottom: 10px;
-    }
+  .stream {
+    margin-top: 8%;
+  }
 
-    .input {
-        border-radius: 0px;
-        background: #1c212e;
-        border: 1px solid transparent;
-        color: #949cb0;
-    }
+  .control {
+    position: fixed;
+    bottom: 0;
+    background: linear-gradient(135deg, #8ebcee, #388fff);
+    padding: 3px;
+    width: 18%;
+    margin-bottom: 10px;
+  }
 
-    .input::placeholder {
-        color: #949cb0;
-    }
+  .input {
+    border-radius: 0px;
+    background: #1c212e;
+    border: 1px solid transparent;
+    color: #949cb0;
+  }
+
+  .input::placeholder {
+    color: #949cb0;
+  }
 </style>

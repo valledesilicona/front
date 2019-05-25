@@ -11,12 +11,13 @@
             </div>
             <div class="column">
                 <card-component
-                        v-for="film in films"
+                        v-for="film in filteredList"
                         :key="film.id"
                         :title="film.name"
                         :score="film.score"
                         :image="film.image"
                         :user="film.user"
+                        :port="film.port"
                         :description="film.description"
                 />
                 <div v-if="films.length === 0" style="text-align: center; width: 50%; margin: 0 auto">
@@ -44,6 +45,7 @@ import CreateRoom from '../components/List/CreateRoom'
 export default {
   name: 'List',
   components: { CreateRoom, CardComponent, MenuComponent },
+  props: ['search'],
   data () {
     return {
       activeModal: false
@@ -52,7 +54,12 @@ export default {
   computed: {
     ...mapGetters({
       films: 'getRooms'
-    })
+    }),
+    filteredList () {
+      return this.films.filter(film => {
+        return film.name.toLowerCase().includes(this.search.toLowerCase())
+      })
+    }
   },
   methods: {
     ...mapActions(['getFilms']),

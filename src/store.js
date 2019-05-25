@@ -51,13 +51,15 @@ export default new Vuex.Store({
     },
 
     createRoom: ({ commit }, data) => {
-      $http.post('/room/create', data)
-        .then(function (response) {
-          console.log(response)
-        })
-        .catch(function (error) {
-          console.log(error)
-        })
+      return new Promise((resolve, reject) => {
+        $http.post('/room/create', data)
+          .then(function (response) {
+            resolve(response)
+          })
+          .catch(function (error) {
+            reject(error)
+          })
+      })
     }
   }
 })

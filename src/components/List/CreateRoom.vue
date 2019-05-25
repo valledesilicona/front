@@ -9,14 +9,14 @@
                 <div class="field">
                     <label class="label">Nombre del Creador</label>
                     <div class="control">
-                        <input class="input" v-model="form.user" type="text" placeholder="Nombre" required>
+                        <input :disabled="loading" class="input" v-model="form.user" type="text" placeholder="Nombre" required>
                     </div>
                 </div>
 
                 <div class="field">
                     <label class="label">Magnet Torrent Link</label>
                     <div class="control">
-                        <input class="input" v-model="form.link" type="text" placeholder="Link" required>
+                        <input :disabled="loading" class="input" v-model="form.link" type="text" placeholder="Link" required>
                     </div>
                 </div>
 
@@ -24,7 +24,7 @@
                     <label class="label">Seleccionar Película</label>
                     <div class="control">
                         <div class="select is-multiple">
-                            <select v-model="form.film_id" multiple size="8" class="selectFilm">
+                            <select :disabled="loading" v-model="form.film_id" multiple size="8" class="selectFilm">
                                 <option
                                         v-for="film in films"
                                         :key="film.id"
@@ -37,7 +37,7 @@
             </section>
             <footer class="modal-card-foot">
                 <button class="button is-inverted is-outlined create-room" :disabled="!validateForm" type="submit">
-                    Crear
+                    {{ loading ? 'Cargando' : 'Crear' }}
                 </button>
                 <a class="button is-danger is-outlined" @click="closeModal()">Cancelar</a>
             </footer>
@@ -58,7 +58,8 @@ export default {
         link: null,
         film_id: []
       },
-      search: ''
+      search: '',
+      loading: false
     }
   },
   computed: {
@@ -75,12 +76,20 @@ export default {
       this.$emit('closeModal')
     },
     sendForm () {
+      this.loading = true
       const film = {
         film_id: this.form.film_id[0],
         user: this.form.user,
         link: this.form.link
       }
-      this.createRoom(film)
+      this.createRoom(film).then(response => {
+        this.loading = false
+        const film = response.data.film
+        this.$router.push('/cinema/' + film.port + '/' + film.user)
+      }).catch(() => {
+        this.loading = false
+        this.closeModal()
+      })
     }
   }
 }
