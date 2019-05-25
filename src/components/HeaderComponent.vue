@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h1>
-      FILMFAMILY
+      sharefilm
     </h1>
   </div>
 </template>
