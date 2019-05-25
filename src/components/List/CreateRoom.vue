@@ -9,14 +9,16 @@
                 <div class="field">
                     <label class="label">Nombre del Creador</label>
                     <div class="control">
-                        <input :disabled="loading" class="input" v-model="form.user" type="text" placeholder="Nombre" required>
+                        <input :disabled="loading" class="input" v-model="form.user" type="text" placeholder="Nombre"
+                               required>
                     </div>
                 </div>
 
                 <div class="field">
                     <label class="label">Magnet Torrent Link</label>
                     <div class="control">
-                        <input :disabled="loading" class="input" v-model="form.link" type="text" placeholder="Link" required>
+                        <input :disabled="loading" class="input" v-model="form.link" type="text" placeholder="Link"
+                               required>
                     </div>
                 </div>
 
@@ -83,9 +85,11 @@ export default {
         link: this.form.link
       }
       this.createRoom(film).then(response => {
-        this.loading = false
-        const film = response.data.film
-        this.$router.push('/cinema/' + film.port + '/' + film.user)
+        setTimeout(() => {
+          this.loading = false
+          const film = response.data.film
+          this.$router.push('/cinema/' + film.port + '/' + film.user)
+        }, 5000)
       }).catch(() => {
         this.loading = false
         this.closeModal()
