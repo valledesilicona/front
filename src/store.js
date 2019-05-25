@@ -10,13 +10,13 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    apiFilms: [
+
+    films: [
       {
         id: 1,
         name: 'Alicia en el país de las maravillas',
         image: 'https://img.tviso.com/ES/poster/w430/7b/62/7b62afe3a9c8d869c572697d8b1751ab.jpg',
         score: '8.6',
-        user: 'Evaristo',
         description: 'El primer movimiento que Alicia decide hacer es coger un tren hasta la cuarta fila (se mueve dos casillas, movimiento completamente legal dado que es su primer movimiento). Pero, durante el viaje en tren, éste descarrila y Alicia, para no perder el equilibrio, se agarra a la barba de una Cabra que va sentada junto a ella.'
       },
       {
@@ -24,20 +24,32 @@ export default new Vuex.Store({
         name: 'Jhon Wick 3',
         image: 'http://es.web.img3.acsta.net/pictures/14/10/01/14/18/135831.jpg',
         score: '6.9',
-        user: 'Eugenesio',
         description: 'John Wick es un exasesino a sueldo de la mafia rusa, más conocido como Baba Yagá (el hombre del saco). Viggo Tarazov, su antiguo socio, se refiere a él como un hombre enfocado, centrado, de voluntad pura y total compromiso, que trabaja como mercenario para cualquiera que pueda pagar por sus servicios para matar a otra persona.'
-      }
-    ]
+      }],
+    rooms: []
   },
   getters: {
     getFilms (state) {
-      return state.apiFilms
+      return state.films
+    },
+    getRooms (state) {
+      return state.rooms.map(room => Object.assign(room, state.films.find(film => film.id === parseInt(room.film_id))))
     }
   },
   mutations: {
-
+    setRooms (state, rooms) {
+      state.rooms = rooms
+    }
   },
   actions: {
+
+    getFilms: ({ commit }) => {
+      $http.get('/room/list')
+        .then(function (response) {
+          commit('setRooms', response.data.items)
+        })
+    },
+
     createRoom: ({ commit }, data) => {
       $http.post('/room/create', data)
         .then(function (response) {
