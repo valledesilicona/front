@@ -25,13 +25,17 @@
                 <div class="field">
                     <label class="label">Seleccionar Película</label>
                     <div class="control">
+                        <div class="control">
+                            <input :disabled="loading" class="input" v-model="search" @input="getDBFilms(search)" type="text" placeholder="Buscar Películas"
+                                   required>
+                        </div>
                         <div class="select is-multiple">
                             <select :disabled="loading" v-model="form.film_id" multiple size="8" class="selectFilm">
                                 <option
-                                        v-for="film in films"
+                                        v-for="film in dbFilms"
                                         :key="film.id"
                                         :value="film.id"
-                                        v-text="film.name"/>
+                                        v-text="film.title"/>
                             </select>
                         </div>
                     </div>
@@ -66,14 +70,15 @@ export default {
   },
   computed: {
     ...mapGetters({
-      films: 'getFilms'
+      films: 'getFilms',
+      dbFilms: 'takeDBFilms'
     }),
     validateForm () {
       return this.form.user && this.form.film_id && this.form.link
     }
   },
   methods: {
-    ...mapActions(['createRoom']),
+    ...mapActions(['createRoom', 'getDBFilms']),
     closeModal () {
       this.$emit('closeModal')
     },

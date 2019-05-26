@@ -10,7 +10,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-
+    dbFilms: [],
     films: [
       {
         id: 1,
@@ -32,6 +32,9 @@ export default new Vuex.Store({
     getFilms (state) {
       return state.films
     },
+    takeDBFilms (state) {
+      return state.dbFilms
+    },
     getRooms (state) {
       return state.rooms.map(room => Object.assign(room, state.films.find(film => film.id === parseInt(room.film_id))))
     }
@@ -39,17 +42,26 @@ export default new Vuex.Store({
   mutations: {
     setRooms (state, rooms) {
       state.rooms = rooms
+    },
+    setDBFilms (state, films) {
+      state.dbFilms = films
     }
   },
   actions: {
-
     getFilms: ({ commit }) => {
       $http.get('/room/list')
         .then(function (response) {
           commit('setRooms', response.data.items)
         })
     },
-
+    getDBFilms: ({ commit }, query) => {
+      $http.get('https://api.themoviedb.org/3/search/movie?api_key=4a19741587ccedce8ad54a8dbb7c2b71&language=es-ES&query=' + query + '&include_adult=true')
+        .then(response => {
+          commit('setDBFilms', response.data.results)
+        }).catch(error => {
+          console.log(error)
+        })
+    },
     createRoom: ({ commit }, data) => {
       return new Promise((resolve, reject) => {
         $http.post('/room/create', data)
