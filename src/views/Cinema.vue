@@ -9,11 +9,11 @@
     </div>
     <div id="chat" class="column is-one-fifth">
       <div class="chat">
-
-        <div v-for="message in messages" :key="message.id">
-          <span class="userMessage" v-text="message.user"/>: {{message.message}}
+        <div class="redered-chat">
+          <p v-for="message in messages" :key="message.id">
+            <span class="userMessage" v-text="message.user"/>: {{message.message}}
+          </p>
         </div>
-
       </div>
       <div class="control">
         <input v-on:keyup.enter="sendMessage" class="input" v-model="message" type="text" placeholder="Chat"
@@ -95,6 +95,17 @@ export default {
   .chat {
     height: 94%;
     color: #949cb0;
+    margin-top: .5rem;
+    background: linear-gradient(135deg, #8ebcee, #388fff);
+    padding: 3px;
+  }
+
+  .redered-chat {
+    overflow-y: scroll;
+    width: 100%;
+    height: 100%;
+    background: #1c212e;
+    padding: 10px;
   }
 
   #video {
@@ -109,11 +120,11 @@ export default {
   }
 
   .control {
-    position: fixed;
+    position: absolute;
     bottom: 0;
     background: linear-gradient(135deg, #8ebcee, #388fff);
     padding: 3px;
-    width: 18%;
+    width: 94%;
     margin-bottom: 10px;
   }
 
