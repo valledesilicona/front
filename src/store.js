@@ -6,6 +6,12 @@ const $http = axios.create({
   baseURL: 'https://sharefilm.ibon.dev/'
 })
 
+const theMovieDB = axios.create({
+  baseURL: 'https://api.themoviedb.org/3/'
+})
+
+const FILM_DB_KEY = '4a19741587ccedce8ad54a8dbb7c2b71&language'
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -55,12 +61,34 @@ export default new Vuex.Store({
         })
     },
     getDBFilms: ({ commit }, query) => {
-      $http.get('https://api.themoviedb.org/3/search/movie?api_key=4a19741587ccedce8ad54a8dbb7c2b71&language=es-ES&query=' + query + '&include_adult=true')
+      theMovieDB.get('/search/movie?api_key=' + FILM_DB_KEY + '=es-ES&query=' + query + '&include_adult=true')
         .then(response => {
           commit('setDBFilms', response.data.results)
         }).catch(error => {
           console.log(error)
         })
+    },
+    getDBFilmById: ({ commit }, id) => {
+      return new Promise((resolve, reject) => {
+        theMovieDB.get('/movie/' + id + '?api_key=' + FILM_DB_KEY + '&language=es-ES&include_adult=true')
+          .then(function (response) {
+            resolve(response)
+          })
+          .catch(function (error) {
+            reject(error)
+          })
+      })
+    },
+    getDBFilmPopular: ({ commit }) => {
+      return new Promise((resolve, reject) => {
+        theMovieDB.get('/movie/popular?api_key=' + FILM_DB_KEY + '&language=es-ES&page=1')
+          .then(function (response) {
+            resolve(response)
+          })
+          .catch(function (error) {
+            reject(error)
+          })
+      })
     },
     createRoom: ({ commit }, data) => {
       return new Promise((resolve, reject) => {

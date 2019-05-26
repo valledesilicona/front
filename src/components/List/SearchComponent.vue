@@ -35,6 +35,6 @@ export default {
 }
 
 .input::placeholder {
-  color: #949cb0;
+  color: #464d5f;
 }
 </style>
